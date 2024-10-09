@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		<title>ログイン</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+                 <div id="login-page" class="container pt-4 pb-5 nagoyameshi-container">
+                     <div class="row justify-content-center nagoyameshi-login">
+                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-7">
+                             <h4 class="pt-5 pb-2 mb-4 text-center">ログイン</h4>
+ 
+                             <div th:if="${param.error}" class="alert alert-danger">
+                                 メールアドレスまたはパスワードが正しくありません。
+                             </div>
+ 
+                             <form th:action="@{/login}" method="post">
+                                 <div class="form-group mb-3">
+                                     <input type="text" class="form-control" name="username" autocomplete="email" placeholder="メールアドレス" autofocus>
+                                 </div>
+                                 <div class="form-group mb-3">
+                                     <input type="password" class="form-control" name="password" autocomplete="new-password" placeholder="パスワード">
+                                 </div>
+                                 <div class="justify-content-center my-4">
+                                     <button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn">ログイン</button>
+                                 </div>
+                             </form>
+ 
+                             <div class="text-center pb-2">
+                                 <a th:href="@{/signup(type = 'general')}">会員登録がまだの方はこちらから</a>
+                             </div>
+                             <div class="text-center">
+                                 <a th:href="@{/reset(type = 'passwordreset')}">パスワードの再設定はこちらから</a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+ </html>

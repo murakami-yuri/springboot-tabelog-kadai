@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		<title>ニックネーム変更</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+                     <div id="signup-page" class="row justify-content-center">
+                         <div class="col-xl-5 col-lg-6 col-md-8">
+                             <h1 class="mb-4 text-center">ニックネーム変更</h1>
+ 
+                             <form method="post" th:action="@{/nicknameupdate}" th:object="${nicknameUpdateForm}">
+                                 <div class="form-group row mb-3">
+                                     <div class="col-md-5">
+                                         <label for="email" class="col-form-label text-md-left fw-bold">
+                                             <div class="d-flex align-items-center">
+                                                 <span class="me-1">メールアドレス</span>
+                                             </div>
+                                         </label>
+                                     </div>
+                                     <div class="col-md-7">
+                                         <p th:unless="${nicknameUpdateForm.email == null}" class="form-control-static" th:text="${nicknameUpdateForm.email}"></p>
+                                         <input th:unless="${nicknameUpdateForm.email == null}" type="hidden" th:field="*{email}">
+                                     </div>
+                                 </div>
+ 
+                                 <div class="form-group row mb-3">
+                                     <div class="col-md-5">
+                                         <label for="nickname" class="col-form-label text-md-left fw-bold">
+                                             <div class="d-flex align-items-center">
+                                                 <span class="me-1">ニックネーム</span>
+                                                 <span class="badge bg-danger">必須</span>
+                                             </div>
+                                         </label>
+                                     </div>
+                                     <div class="col-md-7">
+                                         <div th:if="${#fields.hasErrors('nickname')}" class="text-danger small mb-2" th:errors="*{nickname}"></div>
+                                         <input type="text" class="form-control" th:field="*{nickname}" autofocus>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="d-flex justify-content-center my-4">
+                                     <button type="submit" class="btn text-white shadow-sm nagoyameshi-btn px-5 mx-3">送信</button>
+                                     <button type="button" class="btn text-white shadow-sm nagoyameshi-reset-btn px-3" onclick="history.back()">戻る</button>
+                                 </div>
+                             </form>
+
+                         </div>
+                     </div>
+                 </div>
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+</html>

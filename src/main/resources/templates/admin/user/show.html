@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		<title>会員詳細</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+                     <div class="row justify-content-center">
+                         <div class="col-xl-5 col-lg-6 col-md-8">
+                             <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                                 <ol class="breadcrumb mb-0">
+                                     <li class="breadcrumb-item"><a th:href="@{/admin/user}">会員一覧</a></li>
+                                     <li class="breadcrumb-item active" aria-current="page">会員詳細</li>
+                                 </ol>
+                             </nav>
+ 
+                             <!--<h1 class="mb-4 text-center" th:text="${user.email}"></h1>-->
+ 
+                             <div class="d-flex justify-content-end align-items-end mb-3">
+                                 <div>
+                                     <a th:href="@{/admin/user/edit/__${user.id}__}">編集</a>
+                                 </div>
+                             </div>
+ 
+                             <div class="container mb-4">
+								 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold"></span>
+                                     </div>
+                                     <div class="col">
+                                         <span></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">ID</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.id}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">メールアドレス</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.email}"></span>
+                                     </div>
+                                 </div>
+								
+								<div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">パスワード</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span>&minus;</span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">ニックネーム</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.nickname}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">ユーザー種別</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${(user.role.name == 'ROLE_ADMIN') ? '管理ユーザー' : '一般ユーザー'}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">会員種別</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${(user.eligible) ? '有料会員' : '無料会員'}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">有効</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${(user.enabled) ? '有効' : '無効'}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">作成日時</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.createdAt}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">更新日時</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.updatedAt}"></span>
+                                     </div>
+                                 </div>
+                                 
+                             </div>
+ 
+                         </div>
+                     </div>
+                 </div>
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+</html>

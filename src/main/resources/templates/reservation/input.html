@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		<!-- Flatpickr -->
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+		<title>予約入力</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+                     <div id="signup-page" class="row justify-content-center">
+                         <div class="col-xl-4 col-lg-6 col-md-8">
+							 <h1 class="mb-4 text-center">予約入力</h1>
+ 							<form method="post" th:action="@{/reservation/__${shop.id}__}" th:object="${reservationInputForm}">
+										 <div class="form-group mb-2">
+											 <label for="visitDateTime" class="col-form-label text-md-left fw-bold">予約日時</label>
+											 <div th:if="${#fields.hasErrors('visitDate')}" class="text-danger small mb-2" th:errors="*{visitDate}"></div>
+											 <div th:if="${#fields.hasErrors('visitTime')}" class="text-danger small mb-2" th:errors="*{visitTime}"></div>
+											 
+											 <input type="text" class="form-control" id="visitDateTime" th:value="${previousDates}" readonly>
+											 <input type="hidden" th:field="*{visitDate}">
+											 <input type="hidden" th:field="*{visitTime}">
+										</div>
+										<div class="form-group mb-4">
+											<label for="numberOfPeople" class="col-form-label text-md-left fw-bold">人数</label>
+											<div th:if="${#fields.hasErrors('numberOfPeople')}" class="text-danger small mb-2" th:errors="*{numberOfPeople}"></div>
+											<input type="number" class="form-control" th:field="*{numberOfPeople}" min="1">
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn">予約する</button>
+										</div>
+									</form>
+                             <!--<form method="post" th:action="@{/reservatioin/__${shop.id}__}" th:object="${reservationInputForm}">
+                                 <div class="form-group row mb-3">
+                                     <div class="col-md-5">
+                                         <label for="visitDate" class="col-form-label text-md-left fw-bold">
+                                             <div class="d-flex align-items-center">
+                                                 <span class="me-1">予約日</span>
+                                             </div>
+                                         </label>
+                                     </div>
+                                     <div class="col-md-7">
+                                         <div th:if="${#fields.hasErrors('visitDate')}" class="text-danger small mb-2" th:errors="*{visitDate}"></div>
+                                         <input type="text" class="form-control" th:field="*{visitDate}" autocomplete="visitDate" autofocus >
+                                     </div>
+                                 </div>
+                                 <div class="form-group row mb-3">
+                                     <div class="col-md-5">
+                                         <label for="visitTime" class="col-form-label text-md-left fw-bold">
+                                             <div class="d-flex align-items-center">
+                                                 <span class="me-1">予約時間</span>
+                                             </div>
+                                         </label>
+                                     </div>
+                                     <div class="col-md-7">
+                                         <div th:if="${#fields.hasErrors('visitTime')}" class="text-danger small mb-2" th:errors="*{visitTime}"></div>
+                                         <input type="text" class="form-control" th:field="*{visitTime}" autocomplete="visitTime" >
+                                     </div>
+                                 </div>
+ 
+                                 <div class="form-group row mb-3">
+                                     <div class="col-md-5">
+                                         <label for="numberOfPeople" class="col-form-label text-md-left fw-bold">
+                                             <div class="d-flex align-items-center">
+                                                 <span class="me-1">人数</span>
+                                                 
+                                             </div>
+                                         </label>
+                                     </div>
+                                     <div class="col-md-7">
+                                         <div th:if="${#fields.hasErrors('numberOfPeople')}" class="text-danger small mb-2" th:errors="*{numberOfPeople}"></div>
+                                         <input type="text" class="form-control" th:field="*{numberOfPeople}" autocomplete="numberOfPeople">
+                                     </div>
+                                 </div>
+ 
+                                 <div class="d-flex justify-content-center my-4">
+                                     <button type="submit" class="btn text-white shadow-sm w-50 nagoyameshi-btn">登録</button>
+                                 </div>
+                             </form>-->
+
+                         </div>
+                     </div>
+                 </div>
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 		<!-- Flatpickr -->
+         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+         <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+         <script th:src="@{/js/flatpickr.js}"></script>
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+</html>
+
+<!--<div class="card">
+								 <div class="card-body">
+									 <form method="post" th:action="@{/reservation/__${house.id}__/}" th:object="${reservationInputForm}">
+										 <div class="form-group mb-2">
+											 <label for="visitDateTime" class="col-form-label text-md-left fw-bold">予約日</label>
+											 <div th:if="${#fields.hasErrors('visitDate')}" class="text-danger small mb-2" th:errors="*{visitDate}"></div>
+											 <div th:if="${#fields.hasErrors('visitTime')}" class="text-danger small mb-2" th:errors="*{visitTime}"></div>
+											 
+											 <input type="text" class="form-control" id="visitDateTime" th:value="${previousDates}" readonly>
+											 <input type="hidden" th:field="*{visitDate}">
+											 <input type="hidden" th:field="*{visitTime}">
+										</div>
+										<div class="form-group mb-4">
+											<label for="numberOfPeople" class="col-form-label text-md-left fw-bold">人数</label>
+											<div th:if="${#fields.hasErrors('numberOfPeople')}" class="text-danger small mb-2" th:errors="*{numberOfPeople}"></div>
+											<input type="number" class="form-control" th:field="*{numberOfPeople}" min="1">
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn">予約する</button>
+										</div>
+									</form>
+								</div>
+						 	</div>-->

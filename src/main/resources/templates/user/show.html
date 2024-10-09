@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		<title>マイページ</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+                     <div class="row justify-content-center">
+                         <div class="col-xl-6 col-lg-7 col-md-8">
+ 							
+                             <h1 class="mb-4 text-center" th:text="${user.nickname} + 'さん　マイページ'"></h1>
+ 							
+ 							<div th:if="${errorMessage != null && errorMessage != ''}" class="alert alert-info">
+                         		<span th:text="${errorMessage}"></span>
+                     		</div>
+                     		
+ 							<div th:if="${param.registered}" class="alert alert-info">
+                                 有料会員への登録が完了しました。
+                             </div>
+                             <div th:if="${param.canceled}" class="alert alert-info">
+                                 有料会員退会しました。
+                             </div>
+                             <div th:if="${param.card}" class="alert alert-info">
+                                 クレジットカードを変更しました。
+                             </div>
+                             <div class="container mb-4">
+								 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold"></span>
+                                     </div>
+                                     <div class="col">
+                                         <span></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">メールアドレス</span>
+                                     </div>
+ 
+                                     <div class="col d-inline-flex justify-content-between">
+                                         <span th:text="${user.email}"></span>
+                                         <a th:href="@{/reset(type = 'emailupdate')}">変更</a>
+                                     </div>
+                                 </div>
+								
+								<div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">パスワード</span>
+                                     </div>
+ 
+                                     <div class="col d-inline-flex justify-content-between">
+                                         <span >&minus;</span>
+                                         <a th:href="@{/reset(type = 'passwordupdate')}">変更</a>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">ニックネーム</span>
+                                     </div>
+ 
+                                     <div class="col d-inline-flex justify-content-between">
+                                         <span th:text="${user.nickname}"></span>
+                                         <a th:href="@{/nicknameupdate}">変更</a>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">会員種別</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${(user.eligible) ? '有料会員' : '無料会員'}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">登録日時</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.createdAt}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">更新日時</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${user.updatedAt}"></span>
+                                     </div>
+                                 </div>
+                                 
+                             </div>
+                             <!-- 無料会員の場合 -->
+ 							<div th:if="${!user.eligible}" class="rounded p-2 text-center mb-2" style="max-height:60vh; ">
+								<a th:text="有料会員に登録" class="btn text-white shadow-sm nagoyameshi-btn px-3"
+								 	th:href="@{/user/upgrade}"></a>
+								 <a th:text="退会" class="btn text-white shadow-sm nagoyameshi-btn mx-3 px-3"
+								 	th:href="@{/user/quit}"></a>
+								<button onclick="history.back()" th:text="戻る" 
+                                     class="btn text-white shadow-sm px-3 nagoyameshi-reset-btn"></button>
+							<!-- 有料会員の場合 -->
+							</div>
+							<div th:if="${user.eligible}" class="rounded p-2 text-center mb-2" style="max-height:60vh; ">
+								<a th:text="クレジットカードを変更" class="btn text-white shadow-sm nagoyameshi-btn px-3"
+								 	th:href="@{/user/card}"></a>
+								<a th:text="有料会員を解約" class="btn text-white shadow-sm nagoyameshi-btn px-3 mx-3"
+								 	th:href="@{/user/cancelconfirm}"></a>
+								 <a th:text="退会" class="btn text-white shadow-sm nagoyameshi-btn px-3"
+								 	th:href="@{/user/quit}"></a><br>
+								 <button onclick="history.back()" th:text="戻る" 
+                                     class="btn text-white shadow-sm my-4 mx-3 px-5 nagoyameshi-reset-btn"></button>
+								
+							</div>
+							<!--<div th:if="${user.eligible}" class="rounded p-2 text-center mb-2" style="max-height:60vh; ">
+								<a th:text="クレジットカードを変更" class="btn text-white shadow-sm nagoyameshi-btn"
+								 	th:href="@{/user/card}"></a>
+								
+							</div>
+							<div class="rounded p-2 text-center mb-2" style="max-height:60vh; ">
+								<button onclick="history.back()" th:text="戻る" 
+                                     class="btn text-white shadow-sm mx-3 px-3 nagoyameshi-reset-btn"></button>
+                         	</div>-->
+                         </div>
+                     </div>
+                 </div>
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		<div th:replace="~{fragment :: styles}"></div>
+		
+		<title>店舗詳細</title>
+	</head>
+	<body>
+		<div class="nagoyameshi-wrapper">
+			<!-- header -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<!-- main -->
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+                     <div class="row justify-content-center">
+						 <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                                 <ol class="breadcrumb mb-0">
+                                     <li class="breadcrumb-item"><a th:href="@{/(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds})}">店舗一覧</a></li>
+                                     <!--<li class="breadcrumb-item"><a href="#" onclick="history.back()">店舗一覧</a></li>-->
+                                     <li class="breadcrumb-item active" aria-current="page">店舗詳細</li>
+                                 </ol>
+                          </nav>
+						 <h1 class="mb-4 text-center" th:text="${shop.name}"></h1>
+						 <div th:if="${successMessage}" class="alert alert-info">
+							<span th:text="${successMessage}"></span>
+						</div>
+                         <div class="col-xl-4 col-lg-5 col-md-6">
+                             <div class="mb-3">
+                                 <img th:if="${shop.imageName}" th:src="@{/images/shops/__${shop.imageName}__}" class="w-100 rounded" alt="店舗画像">
+                                 <img th:unless="${shop.imageName}" th:src="@{/images/noImage.png}" class="w-100" alt="NO IMAGE">
+                             </div>
+                             <div class="container mb-4">
+ 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">店舗名</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${shop.name}"></span>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">説明</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span class="nagoyameshi-pre-wrap" th:text="${shop.description}"></span>
+                                     </div>
+                                 </div>
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">郵便番号</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${shop.postalCode}"></span>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">住所</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${shop.address}"></span>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">電話番号</span>
+                                     </div>
+ 
+                                     <div class="col">
+                                         <span th:text="${shop.phoneNumber}"></span>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row pb-2 mb-2 border-bottom">
+                                     <div class="col-4">
+                                         <span class="fw-bold">カテゴリー</span>
+                                     </div>
+ 
+                                     <div class="col">
+										 <span th:each="category:${categories}">
+                                         	<span class="me-2", th:text="${category.name}"></span>
+                                         </span>
+                                     </div>
+                                 </div>
+                                 
+                             </div>
+                             <div th:if="${eligible}" class="rounded p-2 overflow-auto mb-2" style="max-height:60vh; ">
+								 <a th:text="予約フォーム" class="btn text-white shadow-sm nagoyameshi-btn"
+								 	th:href="@{/reservation/__${shop.id}__}"></a>
+							</div>
+                             
+						 </div>
+                         <div class="col-xl-7 col-lg-8 col-md-9">
+							 
+							 <!-- 有料ユーザーの場合に「お気に入り登録」と「レビュー投稿」を表示 -->
+							 <div th:if="${eligible}" class="rounded p-2 overflow-auto mb-2" style="max-height:60vh; background-color: #f9f9f9ff;">
+								 <div class="d-flex justify-content-center my-1">
+									 <!-- お気に入りならハートを表示 -->
+									<span th:if="${isFavorite}" class="nagoyameshi-heart fs-4" >&hearts;</span>
+									 
+									 <a th:if="${isFavorite}"　th:text="お気に入り解除" class="btn text-white shadow-sm ms-4 me-2 nagoyameshi-btn"
+								 	th:href="@{/favorite/__${shop.id}__/delete(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds}, userId = ${userId})}"></a>
+								 	
+								 	<a th:unless="${isFavorite}"th:text="お気に入り登録" class="btn text-white shadow-sm mx-2 nagoyameshi-btn"
+								 	th:href="@{/favorite/__${shop.id}__/register(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds}, userId = ${userId})}"></a>
+								 	
+								 	<a th:text="レビュー投稿" class="btn text-white shadow-sm mx-2 nagoyameshi-btn"
+								 	th:href="@{/review/__${shop.id}__/post(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds}, userId = ${userId})}"></a>
+								 	
+								 	<!--<a th:text="お気に入りページ" class="btn text-white shadow-sm mx-2 nagoyameshi-reset-btn"
+								 	th:href="@{/favorite}"></a>-->
+								 </div>
+							 </div>
+							 
+							 <!-- レビュー一覧表示 -->
+							 <div class="rounded p-2 overflow-auto" style="max-height:60vh; background-color: #f9f9f9ff;">
+								 <span class="text-center fw-bold p-3 fs-8" >レビュー</span>
+								 
+								 <div  th:each="review : ${reviews}"> 
+									 <div class="border rounded m-3 p-2" style="background-color: white;">
+										 
+										 <span th:text="${review.user.nickname} + 'さん　'"></span>
+										 <span class="text-muted">投稿日時：</span>
+										 <span  class="text-muted" th:text="${review.updatedAt}"></span>
+										 <div class="border"></div>
+										 <p th:text="${review.review}"></p>
+										 
+										 
+										<!-- ユーザー自身の投稿の場合に編集・削除リンクを表示 -->
+										<div style="text-align:right;">
+											<a th:if="${userId == review.user.id}" href="#" class="nagoyameshi-link-danger" data-bs-toggle="modal" th:data-bs-target="${'#deleteReviewModal' + review.id}">削除</a>
+											<a th:if="${userId == review.user.id}" th:href="@{/review/__${review.id}__/edit(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds}, shopId = ${shopId})}" class="mx-2"　>編集</a>
+									 	</div>
+									
+									 </div>
+									 <!-- 削除用モーダル -->
+                                     <div th:if="${userId == review.user.id}" class="modal fade" th:id="${'deleteReviewModal' + review.id}" tabindex="-1" th:aria-labelledby="${'deleteReviewModalLabel' + review.id}">
+                                         <div class="modal-dialog">
+                                             <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h5 class="modal-title" th:id="${'deleteReviewModalLabel' + review.id}" th:text="レビューを削除してもよろしいですか？"></h5>
+                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <form method="post" th:action="@{/review/__${review.id}__/delete(page = ${page}, keyword = ${keyword}, categoryIds = ${categoryIds}, shopId = ${shopId})}">
+														 <input type="hidden" name="shopId" value="shopId">
+                                                         <button type="submit" class="btn nagoyameshi-btn-danger text-white shadow-sm">削除</button>
+                                                     </form>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+									 
+								 </div>
+							</div>
+						</div>
+                     </div>
+                 </div>
+
+			</main>
+             
+			<!-- footer --> 
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+ 		
+		<!-- Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+</html>
