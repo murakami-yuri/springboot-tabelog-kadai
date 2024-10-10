@@ -57,7 +57,7 @@ public class MypageController {
         model.addAttribute("user", user);
         model.addAttribute("successMessage", successMessage);
         
-		return "/user/show";
+		return "user/show";
 		
     }
 	
