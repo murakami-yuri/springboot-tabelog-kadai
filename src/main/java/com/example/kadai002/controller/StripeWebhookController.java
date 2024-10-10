@@ -35,9 +35,12 @@ public class StripeWebhookController {
             
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
+        
+        System.out.println("確認1");
         if ("checkout.session.completed".equals(event.getType())) {
+        	System.out.println("確認2");
             stripeService.processSessionCompleted(event);
+            System.out.println("確認3");
         }
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
