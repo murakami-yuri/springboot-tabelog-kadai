@@ -184,15 +184,15 @@ public class StripeService {
     // セッションからユーザー情報を取得し、データベースに登録する
     @Transactional
     public void processSessionCompleted(Event event) {
-    	System.out.println("確認4");
+
         // EventオブジェクトからStripeObjectオブジェクトを取得する
         Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();
-        System.out.println("確認5");
+
         optionalStripeObject.ifPresentOrElse(stripeObject -> {
-        	System.out.println("確認6");
+
             // StripeObjectオブジェクトをSessionオブジェクトに型変換する
             Session session = (Session)stripeObject;
-            System.out.println("確認7");
+
             String mode = session.getMode();
             System.out.println("*----------------" + mode);
             
