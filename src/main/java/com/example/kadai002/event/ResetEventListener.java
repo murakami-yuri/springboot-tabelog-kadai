@@ -26,7 +26,7 @@ public class ResetEventListener {
         String token = UUID.randomUUID().toString();
         verificationTokenService.update(user, token);
 
-        String senderAddress = "springboot.samuraitravel@example.com";
+        String senderAddress = "samurai.terakoya.murakami@gmail.com";
         String recipientAddress = user.getEmail();
         String subject = "メール認証";
         String confirmationUrl = resetEvent.getRequestUrl() + "/verify?token=" + token;
