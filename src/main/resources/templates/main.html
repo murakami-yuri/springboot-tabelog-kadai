@@ -24,11 +24,15 @@
                      	<div th:if="${param.quit}" class="alert alert-info">
                          	Nagoyameshiを退会しました。
                      	</div>
-						<div th:if="${!successMessage.isEmpty()}" class="alert alert-info">
-							<span th:text="${successMessage}"></span>
+						<div th:if="${successMessage}" class="alert alert-info">
+							<div th:if="${!successMessage.isEmpty()}">
+								<span th:text="${successMessage}"></span>
+							</div>
 						</div>
-						<div th:if="${!errorMessage.isEmpty()}" class="alert alert-danger">
-							<span th:text="${errorMessage}"></span>
+						<div th:if="${errorMessage}" class="alert alert-danger">
+							<div th:if="${!errorMessage.isEmpty()}">
+								<span th:text="${errorMessage}"></span>
+							</div>
 						</div>
 						<!--左カラム　条件選択用-->
 						<div class="col-lg-3">
