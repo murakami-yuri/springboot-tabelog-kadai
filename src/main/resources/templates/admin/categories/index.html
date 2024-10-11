@@ -39,12 +39,14 @@
 										<th scope="col">ID</th>
 										<th scope="col">カテゴリ名</th>
 										<th scope="col"></th>
+										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="category : ${categoryPage}">
 										<td th:text="${category.id}"></td>
 										<td th:text="${category.name}"></td>
+										<td><a th:href="@{/admin/categories/__${category.id}__/edit}">編集</a></td>
 										<td><a href="#" class="samuraitravel-link-danger" data-bs-toggle="modal" th:data-bs-target="${'#deleteCategoryModal' + category.id}">削除</a></td>
 										<!-- 削除用モーダル -->
 										<div class="modal fade" th:id="${'deleteCategoryModal' + category.id}" tabindex="-1" th:aria-labelledby="${'deleteCategoryModalLabel' + category.id}">

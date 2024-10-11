@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.kadai002.entity.Category;
+import com.example.kadai002.form.CategoryEditForm;
 import com.example.kadai002.form.CategoryRegisterForm;
 import com.example.kadai002.service.CategoryService;
 
@@ -88,7 +89,65 @@ public class AdminCategoryController {
 
         return "redirect:/admin/categories";
     }
+	// 管理者用　カテゴリの編集（フォームの引き渡し）
+	@GetMapping("/{id}/edit")
+    public String edit(@PathVariable(name = "id") Integer id, 
+    		RedirectAttributes redirectAttributes, Model model) {
+        
+		// フォームに現在のカテゴリ情報を反映させるため、カテゴリを取得
+		Optional<Category> optionalCategory  = categoryService.findCategoryById(id);
+		if (optionalCategory.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "カテゴリが存在しません。");
+			return "redirect:/admin/categories";
+		}
+		Category category = optionalCategory.get();
+		
+		//　現在の情報を埋め込んだ状態でフォームを取得
+		CategoryEditForm categoryEditForm = new CategoryEditForm(category.getName());
+		
+		//　ビューに引き渡す
+		model.addAttribute("categoryEditForm", categoryEditForm);
+		model.addAttribute("category", category);
+		
+		return "admin/categories/edit";
+	}
 	
+	// 管理者用　カテゴリの編集（登録処理）
+	@PostMapping("{id}/update")
+    public String create(@PathVariable(name = "id") Integer id,
+    		@ModelAttribute @Validated CategoryEditForm categoryEditForm,
+    		BindingResult bindingResult,
+    		RedirectAttributes redirectAttributes, Model model) {
+		
+		// IDから店舗を取得
+		Optional<Category> optionalCategory  = categoryService.findCategoryById(id);
+		if (optionalCategory.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "カテゴリが存在しません。");
+			return "redirect:/admin/categories";
+		}
+		Category category = optionalCategory.get();
+		
+		// 店舗名が登録済み（かつ自分自身の名前でない）であれば、BindingResultオブジェクトにエラー内容を追加する
+		if (categoryService.isCategoryRegistered(categoryEditForm.getName()) && !(category.getName().equals(categoryEditForm.getName()))){
+			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "name", "すでに登録済みのカテゴリ名です。");
+			bindingResult.addError(fieldError);
+		}
+		
+		// 入力エラーがあれば入力画面に戻る
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("categoryEditForm", categoryEditForm);
+			model.addAttribute("category", category);
+			return "admin/categories/edit";
+		}
+		
+		// categoryテーブル更新処理
+		categoryService.updateCategory(categoryEditForm, category);
+		redirectAttributes.addFlashAttribute("successMessage", "カテゴリを更新しました。");
+		
+		return "redirect:/admin/categories";
+    }
+		
 	// 管理者用　カテゴリの削除
 	@PostMapping("/{id}/delete")
     public String edit(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.kadai002.entity.Category;
 import com.example.kadai002.entity.ShopCategory;
+import com.example.kadai002.form.CategoryEditForm;
 import com.example.kadai002.form.CategoryRegisterForm;
 import com.example.kadai002.form.SearchConditionForm;
 import com.example.kadai002.form.ShopEditForm;
@@ -92,6 +93,18 @@ public class CategoryService {
         category.setName(categoryRegisterForm.getName());
 
         categoryRepository.save(category);
+    }
+    
+    // カテゴリ名の更新
+    @Transactional
+    public void updateCategory(CategoryEditForm categoryEditForm, Category category) {
+    	
+    	// 更新の準備
+    	category.setName(categoryEditForm.getName());
+        
+        // 店舗情報の更新処理
+    	categoryRepository.save(category);
+        
     }
     
     // カテゴリの削除
