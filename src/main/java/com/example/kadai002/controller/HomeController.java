@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,8 +50,8 @@ public class HomeController {
 	public String mainpage(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, 
 			@RequestParam(name = "keyword", required = false) String keyword,
 			@RequestParam(name = "categoryIds", required = false) List<Integer> categoryIds,
-			//@ModelAttribute("errorMessage") String errorMessage,
-			//@ModelAttribute("successMessage") String successMessage,
+			@ModelAttribute("errorMessage") String errorMessage,
+			@ModelAttribute("successMessage") String successMessage,
 			RedirectAttributes redirectAttributes, Model model,
 			@PageableDefault(page = 0, size = 8, sort = "id", direction = Direction.ASC) Pageable pageable) {
 
@@ -110,8 +111,8 @@ public class HomeController {
         model.addAttribute("categories", categories);
         model.addAttribute("searchConditionForm", searchConditionForm);
         model.addAttribute("eligible", eligible);
-        //model.addAttribute("errorMessage", errorMessage);
-        //model.addAttribute("successMessage", successMessage);
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("successMessage", successMessage);
 
 		return "main";
 
