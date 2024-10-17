@@ -109,18 +109,19 @@ public class AuthController {
 	@GetMapping("/signup/verify")
     public String verify(
     		@RequestParam(name = "token") String token, Model model,
-    		HttpServletRequest request) {
+    		HttpServletRequest request,
+    		RedirectAttributes redirectAttributes) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         
         if (verificationToken != null) {
             User user = verificationToken.getUser();  
             userService.enableUser(user);
             String successMessage = "会員登録が完了しました。";
-            model.addAttribute("successMessage", successMessage);  
+            redirectAttributes.addFlashAttribute("successMessage", successMessage);  
             
         } else {
             String errorMessage = "トークンが無効です。";
-            model.addAttribute("errorMessage", errorMessage);
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
         }
         
         return "redirect:/";
