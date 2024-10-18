@@ -94,7 +94,7 @@ public class HomeController {
 	        if (optionalUser.isEmpty()) {
 	            model.addAttribute("errorMessage", "ユーザーが存在しません。");
 
-	            return "redirect:/main";
+	            return "redirect:/";
 	        }
 	        User user = optionalUser.get();
 	        
