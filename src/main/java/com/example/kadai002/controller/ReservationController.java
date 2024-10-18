@@ -117,7 +117,7 @@ public class ReservationController {
 
         model.addAttribute("reservationDTO", reservationDTO);
 
-        return "/reservation/confirmation";
+        return "reservation/confirmation";
     }
     
     @PostMapping("/reservation/create")
